@@ -1,7 +1,7 @@
 This is my modification of Avi Singh's implementation on visual
 odometry. See the following for Avi's visual odometry, http://avisingh599.github.io/vision/monocular-vo/
 
-##Pipeline
+#Pipeline
 <ol>
 <li><b>Feature Extraction</b>: Extract features from input images to track over frame. For this, FAST is used.
 <li><b>Feature Tracking</b>: To estimate the relative motion of a camera in consecutive images, one needs to track the extracted features. In other words, assuming that those features are relatively static, what we want to do is to estimate the motion of the camera or a body the camera rigidly mounted on with respect to those features. For the feature tracking, KLT (Kanade-Lucas-Tomasi) is used.
