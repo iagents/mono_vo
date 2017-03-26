@@ -5,9 +5,6 @@ http://avisingh599.github.io/vision/monocular-vo/
 #Pipeline
 <ol>
 <li><b>Feature Extraction</b>: Extract features from input images to track over frame. For this, <a href="https://www.edwardrosten.com/work/rosten_2006_machine.pdf">FAST</a> is used. 
-```bash
-[Rosten and Drummond, 2006] Edward Rosten and Tom Drummond, Machine learning for high-speed corner detection, In <i>Proceedings of European Conference on Computer Vision</i> (ECCV-2006), pp. 430-443, 2006
-```
 <li><b>Feature Tracking</b>: To estimate the relative motion of a camera in consecutive images, one needs to track the extracted features. In other words, assuming that those features are relatively static, what we want to do is to estimate the motion of the camera or a body the camera rigidly mounted on with respect to those features. For the feature tracking, KLT (Kanade-Lucas-Tomasi) is used.
 <li><b>Camera Motion Estimation</b>:The motion of a camera in consecutive image frames or poses of the body is represented by a transformation matrix. The transformation matrix is in turn represented by a composite of a rotation and a translation matrix. Given a correspondence or a set of the correspondent features, one can estimate such a transformation matrix using any of <i>n</i>-point algorithms. Here the Nister's five point algorithm is used to estimate the essential matrix. 
 <li><b>Computing R,t from the Essential Matrix</b>:
@@ -18,14 +15,16 @@ Note that this project is not yet capable of doing reliable relative
 scale estimation, so the scale informaion is extracted from the KITTI
 dataset ground truth files.
 
+```bash
+[Rosten and Drummond, 2006] Edward Rosten and Tom Drummond, Machine learning for high-speed corner detection, In <i>Proceedings of European Conference on Computer Vision</i> (ECCV-2006), pp. 430-443, 2006
+```
 ##Requirements
 OpenCV 3.0
 
 ##Build
 Provided with this repo is a CMakeLists.txt file, which you can use to directly compile the code as follows:
 ```bash
-mkdir build
-cd build
+mkdir build && cd build
 cmake ..
 make
 ```
