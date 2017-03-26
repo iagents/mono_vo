@@ -4,14 +4,14 @@ a camera. See the following for Avi's visual odometry,
 http://avisingh599.github.io/vision/monocular-vo/
 
 #Pipeline 
-
+<p>
 The visual odometry is a technique for estimating the pose of a rigid
 body over time by analyzing the images acquired from the camera
 installed or rigidly mounted on the body. This is roughly based on an
 assumption that the body is moving relative to other static objects
 around it [Howard, 2008], [Fraundorfer and Scaramuzza, 2012], [Nister
 et al., 2006], [Scaramuzza and Fraundorfer, 2011].
-
+</p>
 <ol>
 
 <li><b>Feature Extraction</b>: Extract features from input images to
@@ -55,7 +55,8 @@ Zisserman, 2000].
 <li>[Cheng et al., 2005] Yang Cheng, Mark Maimone, and Larry Matthies,
 <a
 href="https://www-robotics.jpl.nasa.gov/publications/Mark_Maimone/smc05_cheng_maimone_matthies.pdf">Visual
-odometry on the mars exploration rovers</a>, 2005.
+odometry on the mars exploration rovers</a>, <i>IEEE Robotics and
+Automation Magazine</i>, 13(2): 54-62, 2005.
 
 <li>[Fraundorfer and Scaramuzza, 2012] Friedrich Fraundorfer and
 Davide Scaramuzza, <a
@@ -108,22 +109,28 @@ Analysis and Machine Intelligence</i>, 21(8): 774-780, 1999.
 </ul>
 
 ##Requirements
-OpenCV 3.0
+<p>
+OpenCV 3.0 or above.
+</p>
 
 ##Build
+<p>
 To build, do the following:
 ```bash
 mkdir build && cd build
 cmake ..
 make
 ```
-
-##Run the executable
+</p>
+##Run the Executable
+<p>
 After compilation, in the build directly, type the following:
 ```bash
 ./vo
 ```
+</p>
 ##Before you run
+<p>
 Note that the resulting codes won't provide you with reliable relative
 scale estimation, so the scale informaion is extracted from the KITTI
 dataset ground truth files.
@@ -137,7 +144,7 @@ computation, /home/your_login_id/data/KITTI/dataset/poses/00.txt
 
 In order to run this algorithm on your own data, you must modify the
 intrinsic calibration parameters in the code.
-
+</p>
 ##Performance
 ![Results on the KITTI VO Benchmark](http://avisingh599.github.io/images/visodo/2K.png)
 
