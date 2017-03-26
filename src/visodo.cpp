@@ -39,8 +39,7 @@ double getAbsoluteScale(int frame_id, int sequence_id, double z_cal)	{
 }
 
 
-int main( int argc, char** argv )	{
-
+int main( int argc, char** argv ){
   Mat img_1, img_2;
   Mat R_f, t_f; //matrices for rotation and translation about the relative camera pose
 
@@ -83,30 +82,33 @@ int main( int argc, char** argv )	{
   featureTracking(img_1, img_2, points1, points2, status);
 
   //TODO: add a fucntion to load these values directly from KITTI's calib files
+
   // WARNING: different sequences ihe KITTI VO dataset have different intrinsic/extrinsic parameters
+  // focal length 
   double focal = 718.8560;
+  // principal point
   cv::Point2d pp(607.1928, 185.2157);
 
   // Recover the relative camera pose from the estimated essential matrix
   Mat E, R, t, mask;
   E = findEssentialMat(points2, // Array of N 2d points, the coordinates of these points should be floating-point
-    points1, // Array of N 2d points
-    focal, // focal length of the camera that is used to acquire images in test
-    pp, // principal point
-    RANSAC, // method to estimate a fundamental or essential matrix, RANSAC | MEDS
-    0.999, // parameter used for RANSAC
-    1.0, // parameter for RANSAC or LMeds, specifying the desirable level of confidence (or probability) that the estimated matrix is correct.
-    mask); // Output array of N elements, indicating 0 for outlier and 1 for other.
+		       points1, // Array of N 2d points
+		       focal,   // focal length of the camera that is used to acquire images in test
+		       pp,      // principal point
+		       RANSAC,  // method to estimate a fundamental or essential matrix, RANSAC | MEDS
+		       0.999,   // parameter used for RANSAC
+		       1.0,     // parameter for RANSAC or LMeds, specifying the desirable level of confidence (or probability) that the estimated matrix is correct.
+		       mask);   // Output array of N elements, indicating 0 for outlier and 1 for other.
   
   // recover relative camera pose, rotation and translation, from the estimated essential matrix and the correspont points in two images
-  recoverPose(E, // Input essential matrix
-    points2, // array of N 2d points
-    points1, //
-    R, // resulting, recovered rotation matrix
-    t, // resulting, recovered translation matrix
-    focal, // focal length of the camera
-    pp, // principal point
-    mask // Output array of N elements, indicating 0 for outlier and 1 for other.
+  recoverPose(E,       // Input essential matrix
+	      points2, // array of N 2d points
+	      points1, //
+	      R,       // resulting, recovered rotation matrix
+	      t,       // resulting, recovered translation matrix
+	      focal,   // focal length of the camera
+	      pp,      // principal point
+	      mask     // Output array of N elements, indicating 0 for outlier and 1 for other.
     );
 
   Mat prevImage = img_2;
@@ -130,45 +132,47 @@ int main( int argc, char** argv )	{
 
   for(int numFrame=2; numFrame < MAX_FRAME; numFrame++)	{
     perframe_begin = clock();
-  	sprintf(filename, "/home/ywseo/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png", numFrame);
+    sprintf(filename, "/home/ywseo/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png", numFrame);
 
     //cout << numFrame << endl;
-  	Mat currImage_c = imread(filename);
-  	cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
-  	vector<uchar> status;
-
-  	featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
-
-  	E = findEssentialMat(currFeatures, prevFeatures, focal, pp, RANSAC, 0.999, 1.0, mask);
-  	recoverPose(E, currFeatures, prevFeatures, R, t, focal, pp, mask);
-
+    Mat currImage_c = imread(filename);
+    cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
+    vector<uchar> status;
+    
+    featureTracking(prevImage, currImage, prevFeatures, currFeatures, status);
+    
+    E = findEssentialMat(currFeatures, prevFeatures, focal, pp, RANSAC, 0.999, 1.0, mask);
+    recoverPose(E, currFeatures, prevFeatures, R, t, focal, pp, mask);
+    
     Mat prevPts(2,prevFeatures.size(), CV_64F), currPts(2,currFeatures.size(), CV_64F);
 
-    for(int i=0;i<prevFeatures.size();i++)	{   //this (x,y) combination makes sense as observed from the source code of triangulatePoints on GitHub
-  		prevPts.at<double>(0,i) = prevFeatures.at(i).x;
-  		prevPts.at<double>(1,i) = prevFeatures.at(i).y;
+    // Visualize the optical flow of the features to track
+    //this (x,y) combination makes sense as observed from the source code of triangulatePoints on GitHub
+    for(int i=0;i<prevFeatures.size();i++)	{   
+      prevPts.at<double>(0,i) = prevFeatures.at(i).x;
+      prevPts.at<double>(1,i) = prevFeatures.at(i).y;
 
-  		currPts.at<double>(0,i) = currFeatures.at(i).x;
-  		currPts.at<double>(1,i) = currFeatures.at(i).y;
+      currPts.at<double>(0,i) = currFeatures.at(i).x;
+      currPts.at<double>(1,i) = currFeatures.at(i).y;
 
       // drawing the features and their motion vector
       circle(currImage_c, Point(prevFeatures.at(i).x, prevFeatures.at(i).y),
-        0.5, CV_RGB(255,0,0), 2);
+	     0.5, CV_RGB(255,0,0), 2);
 
       circle(currImage_c, Point(currFeatures.at(i).x, currFeatures.at(i).y),
         0.5, CV_RGB(0,255,0), 2);
 
       line(currImage_c,
-        Point(prevFeatures.at(i).x, prevFeatures.at(i).y),
-        Point(currFeatures.at(i).x, currFeatures.at(i).y),
-        CV_RGB(0,0,255),
-        1,
-        CV_AA,
-        0
-        );
+	   Point(prevFeatures.at(i).x, prevFeatures.at(i).y),
+	   Point(currFeatures.at(i).x, currFeatures.at(i).y),
+	   CV_RGB(0,0,255),
+	   1,
+	   CV_AA,
+	   0
+	   );
     }
 
-  	scale = getAbsoluteScale(numFrame, 0, t.at<double>(2));
+    scale = getAbsoluteScale(numFrame, 0, t.at<double>(2));
 
     if ((scale>0.1)&&(t.at<double>(2) > t.at<double>(0)) && (t.at<double>(2) > t.at<double>(1))) {
       t_f = t_f + scale*(R_f*t);
@@ -181,14 +185,13 @@ int main( int argc, char** argv )	{
    // lines for printing results
    // myfile << t_f.at<double>(0) << " " << t_f.at<double>(1) << " " << t_f.at<double>(2) << endl;
 
-  // a redetection is triggered in case the number of feautres being trakced go below a particular threshold
- 	  if (prevFeatures.size() < MIN_NUM_FEAT)	{
+    // a redetection is triggered in case the number of feautres being trakced go below a particular threshold
+    if (prevFeatures.size() < MIN_NUM_FEAT){
       //cout << "Number of tracked features reduced to " << prevFeatures.size() << endl;
       //cout << "trigerring redection" << endl;
- 		  featureDetection(prevImage, prevFeatures);
+      featureDetection(prevImage, prevFeatures);
       featureTracking(prevImage,currImage,prevFeatures,currFeatures, status);
-
- 	  }
+    }
 
     prevImage = currImage.clone();
     prevFeatures = currFeatures;
