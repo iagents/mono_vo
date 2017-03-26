@@ -1,8 +1,16 @@
 This is my modification of Avi Singh's implementation on visual
-odometry. See the following for Avi's visual odometry,
+odometry to reflash what I learned earlier about the relative pose of
+a camera. See the following for Avi's visual odometry,
 http://avisingh599.github.io/vision/monocular-vo/
 
-#Pipeline
+#Pipeline 
+
+The visual odometry is a technique for estimating the pose of a rigid
+body over time by analyzing the images acquired from the camera
+installed or rigidly mounted on the body. This is roughly based on an
+assumption that the body is moving relative to other static objects
+around it. 
+
 <ol>
 
 <li><b>Feature Extraction</b>: Extract features from input images to
