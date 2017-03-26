@@ -116,19 +116,21 @@ OpenCV 3.0 or above.
 ##Build
 <p>
 To build, do the following:
+</p>
 ```bash
 mkdir build && cd build
 cmake ..
 make
 ```
-</p>
+
 ##Run the Executable
 <p>
 After compilation, in the build directly, type the following:
+</p>
 ```bash
 ./vo
 ```
-</p>
+
 ##Before you run
 <p>
 Note that the resulting codes won't provide you with reliable relative
@@ -145,6 +147,8 @@ computation, /home/your_login_id/data/KITTI/dataset/poses/00.txt
 In order to run this algorithm on your own data, you must modify the
 intrinsic calibration parameters in the code.
 </p>
+
+
 ##Performance
 ![Results on the KITTI VO Benchmark](http://avisingh599.github.io/images/visodo/2K.png)
 
