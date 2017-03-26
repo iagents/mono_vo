@@ -114,9 +114,9 @@ OpenCV 3.0 or above.
 </p>
 
 ##Build
-<p>
+
 To build, do the following:
-</p>
+
 ```bash
 mkdir build && cd build
 cmake ..
@@ -124,9 +124,9 @@ make
 ```
 
 ##Run the Executable
-<p>
+
 After compilation, in the build directly, type the following:
-</p>
+
 ```bash
 ./vo
 ```
