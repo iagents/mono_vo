@@ -1,17 +1,18 @@
-This is my modification of Avi Singh's implementation on visual
-odometry to reflash what I learned earlier about the relative pose of
-a camera. See the following for Avi's visual odometry,
+This is a modification of Avi Singh's codes on visual odometry to
+reflash what I learned earlier about the camera pose estimation. See
+the following for Avi's visual odometry posting,
 http://avisingh599.github.io/vision/monocular-vo/
 
 #Pipeline 
-<p>
-The visual odometry is a technique for estimating the pose of a rigid
-body over time by analyzing the images acquired from the camera
-installed or rigidly mounted on the body. This is roughly based on an
-assumption that the body is moving relative to other static objects
-around it [Howard, 2008], [Fraundorfer and Scaramuzza, 2012], [Nister
-et al., 2006], [Scaramuzza and Fraundorfer, 2011].
-</p>
+
+<p>The visual odometry is a technique that estimates the pose of a
+ rigid body over time by analyzing the images acquired from the camera
+ installed or rigidly mounted on the body. This is roughly based on an
+ assumption that the body is moving relative to other static objects
+ around it [Howard, 2008], [Fraundorfer and Scaramuzza, 2012], [Nister
+ et al., 2006], [Scaramuzza and Fraundorfer, 2011]. A generic pipeline
+ is as follows:</p>
+
 <ol>
 
 <li><b>Feature Extraction</b>: Extract features from input images to
@@ -43,10 +44,12 @@ matrix</a> [Nister, 2004].
 
 <li><b>Computing R,t from the Essential Matrix</b>: Given an estimated
 essential matrix, to estimate the relative motion of a camera, one
-needs to compute R, t from the essential matrix, E [Hartley and
-Zisserman, 2000].
+needs to compute <b>R, t</b> from the essential matrix, <b>E</b>
+[Hartley and Zisserman, 2000].
 
-<li><b>Rolling Out the Estimated Trajectory</b>:
+<li><b>Pose Estimation</b>: Estimate the pose of the camera by rolling
+out what has been estimated.  
+
 </ol>
 
 #Reference

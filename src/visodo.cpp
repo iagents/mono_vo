@@ -3,8 +3,11 @@
 using namespace cv;
 using namespace std;
 
-#define MAX_FRAME 1000
+#define MAX_FRAME 2000
 #define MIN_NUM_FEAT 2000
+
+std::string usr_name;
+std::string kitti_sequence = "00";
 
 std::string getLoginName()
 {
@@ -29,8 +32,7 @@ double getAbsoluteScale(int frame_id, int sequence_id, double z_cal)	{
   string line;
   int i = 0;
 
-  std::string usr_name = getLoginName();
-  std::string gt_filename = "/home/"+usr_name+"/Downloads/data/KITTI/dataset/poses/00.txt";
+  std::string gt_filename = "/home/"+usr_name+"/Downloads/data/KITTI/dataset/poses/"+kitti_sequence+".txt";
 
   ifstream myfile (gt_filename.c_str());
   double x =0, y=0, z = 0;
@@ -70,14 +72,14 @@ int main( int argc, char** argv ){
   ofstream myfile;
   myfile.open ("results1_1.txt");
 
-  std::string usr_name = getLoginName();
+  usr_name = getLoginName();
 
   double scale = 1.00;
   char filename1[200];
   char filename2[200];
 
-  std::string file_fullname1 = "/home/" + usr_name + "/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png";
-  std::string file_fullname2 = "/home/" + usr_name + "/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png";
+  std::string file_fullname1 = "/home/" + usr_name + "/Downloads/data/KITTI/dataset/sequences/"+kitti_sequence+"/image_2/%06d.png";
+  std::string file_fullname2 = "/home/" + usr_name + "/Downloads/data/KITTI/dataset/sequences/"+kitti_sequence+"/image_2/%06d.png";
 
   sprintf(filename1, file_fullname1.c_str(), 0);
   sprintf(filename2, file_fullname2.c_str(), 1);
@@ -152,7 +154,7 @@ int main( int argc, char** argv ){
 
   clock_t begin = clock();
 
-  namedWindow( "Road facing camera", WINDOW_AUTOSIZE );// Create a window for display.
+  namedWindow( "Frontal-facing camera", WINDOW_AUTOSIZE );// Create a window for display.
   namedWindow( "Trajectory", WINDOW_AUTOSIZE );// Create a window for display.
 
   Mat traj = Mat::zeros(600, 600, CV_8UC3);
@@ -233,7 +235,7 @@ int main( int argc, char** argv ){
     sprintf(text, "Coordinates: x = %02fm y = %02fm z = %02fm", t_f.at<double>(0), t_f.at<double>(1), t_f.at<double>(2));
     putText(traj, text, textOrg, fontFace, fontScale, Scalar::all(255), thickness, 8);
 
-    imshow( "Road facing camera", currImage_c );
+    imshow( "Frontal-facing camera", currImage_c );
     imshow( "Trajectory", traj );
 
     waitKey(1);
