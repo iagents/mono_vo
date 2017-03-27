@@ -15,6 +15,8 @@
 #include <fstream>
 #include <string>
 
+#include <pwd.h>
+
 using namespace cv;
 using namespace std;
 

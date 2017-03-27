@@ -6,10 +6,33 @@ using namespace std;
 #define MAX_FRAME 1000
 #define MIN_NUM_FEAT 2000
 
+std::string getLoginName()
+{
+  // get user id
+  register struct passwd *pw;
+  register uid_t uid;
+
+  uid = geteuid();
+  pw = getpwuid(uid);
+
+  if (!pw) {
+    std::cerr << "[fatal error] Can't retrieve the username for this UID, "<< (unsigned) uid << std::endl;
+    exit(-1);
+  }
+
+  std::string login_name(pw->pw_name);    
+  
+  return login_name;
+}
+
 double getAbsoluteScale(int frame_id, int sequence_id, double z_cal)	{
   string line;
   int i = 0;
-  ifstream myfile ("/home/ywseo/Downloads/data/KITTI/dataset/poses/00.txt");
+
+  std::string usr_name = getLoginName();
+  std::string gt_filename = "/home/"+usr_name+"/Downloads/data/KITTI/dataset/poses/00.txt";
+
+  ifstream myfile (gt_filename.c_str());
   double x =0, y=0, z = 0;
   double x_prev, y_prev, z_prev;
 
@@ -43,15 +66,21 @@ int main( int argc, char** argv ){
   Mat img_1, img_2;
   Mat R_f, t_f; //matrices for rotation and translation about the relative camera pose
 
+  // file containing output
   ofstream myfile;
   myfile.open ("results1_1.txt");
+
+  std::string usr_name = getLoginName();
 
   double scale = 1.00;
   char filename1[200];
   char filename2[200];
 
-  sprintf(filename1, "/home/ywseo/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png", 0);
-  sprintf(filename2, "/home/ywseo/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png", 1);
+  std::string file_fullname1 = "/home/" + usr_name + "/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png";
+  std::string file_fullname2 = "/home/" + usr_name + "/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png";
+
+  sprintf(filename1, file_fullname1.c_str(), 0);
+  sprintf(filename2, file_fullname2.c_str(), 1);
 
   char text[100];
   int fontFace = FONT_HERSHEY_PLAIN;
@@ -132,7 +161,7 @@ int main( int argc, char** argv ){
 
   for(int numFrame=2; numFrame < MAX_FRAME; numFrame++)	{
     perframe_begin = clock();
-    sprintf(filename, "/home/ywseo/Downloads/data/KITTI/dataset/sequences/00/image_2/%06d.png", numFrame);
+    sprintf(filename, file_fullname1.c_str(), numFrame);
 
     //cout << numFrame << endl;
     Mat currImage_c = imread(filename);
