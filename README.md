@@ -118,10 +118,11 @@ OpenCV 3.0 or above.
 
 ##Build
 
-To build, do the following:
+To build, do the following at the directory you cloned this repo:
 
 ```bash
-mkdir build && cd build
+mkdir build
+cd build
 cmake ..
 make
 ```
@@ -135,17 +136,19 @@ After compilation, in the build directly, type the following:
 ```
 
 ##Before you run
+
 <p>
-Note that the resulting codes won't provide you with reliable relative
-scale estimation, so the scale informaion is extracted from the KITTI
+
+Note that the resulting codes won't provide you with relative scale
+estimation, so the scale informaion is extracted from the KITTI
 dataset ground truth files.
 
-Thus you need to have either your own data, or else the sequences from
-[KITTI's Visual Odometry
-Dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php). This
-implementation assumes that the KITTI data is downloaded at
+This implementation assumes that the KITTI data is downloaded at
 /home/your_login_id/data/KITTI/ and uses the following for the scale
 computation, /home/your_login_id/data/KITTI/dataset/poses/00.txt
+
+[KITTI's Visual Odometry
+Dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php)
 
 In order to run this algorithm on your own data, you must modify the
 intrinsic calibration parameters in the code.
@@ -155,5 +158,3 @@ intrinsic calibration parameters in the code.
 ##Performance
 ![Results on the KITTI VO Benchmark](http://avisingh599.github.io/images/visodo/2K.png)
 
-##License
-MIT
