@@ -3,7 +3,7 @@ reflash what I learned earlier about the camera pose estimation. See
 the following for Avi's visual odometry posting,
 http://avisingh599.github.io/vision/monocular-vo/
 
-#Pipeline 
+###Pipeline 
 
 <p>The visual odometry is a technique that estimates the pose of a
  rigid body over time by analyzing the images acquired from the camera
@@ -52,7 +52,7 @@ out what has been estimated.
 
 </ol>
 
-#Reference
+###Reference
 <ul>
 
 <li>[Cheng et al., 2005] Yang Cheng, Mark Maimone, and Larry Matthies,
@@ -111,7 +111,7 @@ Analysis and Machine Intelligence</i>, 21(8): 774-780, 1999.
 
 </ul>
 
-##Requirements
+###Requirements
 <p>
 OpenCV 3.0 or above.
 </p>
@@ -134,7 +134,7 @@ After compilation, in the build directly, type the following:
 ./vo
 ```
 
-##Before you run
+###Before you run
 <p>
 Note that the resulting codes won't provide you with reliable relative
 scale estimation, so the scale informaion is extracted from the KITTI
@@ -152,7 +152,7 @@ intrinsic calibration parameters in the code.
 </p>
 
 
-##Performance
+###Performance
 ![Results on the KITTI VO Benchmark](http://avisingh599.github.io/images/visodo/2K.png)
 
 ##License

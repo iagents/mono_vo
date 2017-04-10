@@ -1,0 +1,8 @@
+*
+
+!src
+!src/*
+
+!CMakeLists.txt
+!README.md
+
