@@ -96,7 +96,7 @@ int main( int argc, char** argv ){
 
   if ( !img_1_c.data || !img_2_c.data ) {
     std::cerr<< "[error] Cannot read images!!" << std::endl;
-    std::cerr<< "[error] e.g.) KITTI data is expected to be at /home/{your_login_name}/KITTI/dataset/sequences/" << std::endl;
+    std::cerr<< "[error] e.g.) KITTI data is expected to be at /home/{your_login_name}/Downloads/KITTI/dataset/sequences/" << std::endl;
     return -1;
   }
 
