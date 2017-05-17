@@ -1,24 +1,25 @@
 This is a modification of Avi Singh's codes on visual odometry to
-reflash what I learned earlier about the camera pose estimation. See
+refresh what I learned earlier about the camera pose estimation. See
 the following for Avi's visual odometry posting,
 http://avisingh599.github.io/vision/monocular-vo/
 
-###Pipeline 
+## Pipeline 
 
-<p>The visual odometry is a technique that estimates the pose of a
- rigid body over time by analyzing the images acquired from the camera
- installed or rigidly mounted on the body. This is roughly based on an
- assumption that the body is moving relative to other static objects
- around it [Howard, 2008], [Fraundorfer and Scaramuzza, 2012], [Nister
- et al., 2006], [Scaramuzza and Fraundorfer, 2011]. A generic pipeline
- is as follows:</p>
+<p>The visual odometry is a (computer vision) technique or algorithm
+ that estimates the pose of a rigid body over time by analyzing the
+ images acquired from the camera installed or rigidly mounted on the
+ body. This is roughly based on an assumption that the body is moving
+ relative to other static objects around it [Howard, 2008],
+ [Fraundorfer and Scaramuzza, 2012], [Nister et al., 2006],
+ [Scaramuzza and Fraundorfer, 2011]. A generic pipeline is as
+ follows:</p>
 
 <ol>
 
 <li><b>Feature Extraction</b>: Extract features from input images to
 track over frame. For this, <a
 href="https://www.edwardrosten.com/work/rosten_2006_machine.pdf">FAST</a>
-[Rosten and Drummond, 2006] is used.
+[Rosten and Drummond, 2006] is used in this repo.
 
 <li><b>Feature Tracking</b>: To estimate the relative motion of a
 camera in consecutive images, one needs to track the extracted
@@ -28,18 +29,17 @@ a body the camera rigidly mounted on with respect to those features
 appearing on consecutive image frames. For the feature tracking, the
 <a
 href="https://en.wikipedia.org/wiki/Kanade%E2%80%93Lucas%E2%80%93Tomasi_feature_tracker">KLT</a>
-(Kanade-Lucas-Tomasi) is used.
+(Kanade-Lucas-Tomasi) is used in this repo.
 
-<li><b>Camera Motion Estimation</b>:The motion of a camera in
+<li><b>Camera Motion Estimation</b>:The motion of a camera over
 consecutive image frames or poses of the body is represented by a
-transformation matrix. The transformation matrix is in turn
-represented by a composite of a rotation and a translation matrix. The
-feature tracking will provide one with a list of the corresponding
-features in consecutive image frames. Given this set of the
-correspondending features, one can estimate such a transformation
-matrix using any of <i>n</i>-point algorithms [Quan and Lan,
-1999]. Here the Nister's five point algorithm is used to estimate the
-<a href="https://en.wikipedia.org/wiki/Essential_matrix">essential
+transformation matrix. The transformation matrix is a composite of a
+rotation and a translation matrix. The feature tracking will provide a
+list of the corresponding features in consecutive image frames. Given
+this set of the correspondending features, one can estimate such a
+transformation matrix using any of <i>n</i>-point algorithms [Quan and
+Lan, 1999]. Here the Nister's five point algorithm is used to estimate
+the <a href="https://en.wikipedia.org/wiki/Essential_matrix">essential
 matrix</a> [Nister, 2004].
 
 <li><b>Computing R,t from the Essential Matrix</b>: Given an estimated
@@ -52,7 +52,7 @@ out what has been estimated.
 
 </ol>
 
-###Reference
+## Reference
 <ul>
 
 <li>[Cheng et al., 2005] Yang Cheng, Mark Maimone, and Larry Matthies,
@@ -111,12 +111,12 @@ Analysis and Machine Intelligence</i>, 21(8): 774-780, 1999.
 
 </ul>
 
-###Requirements
+## Requirements
 <p>
 OpenCV 3.0 or above.
 </p>
 
-###Build
+## Build
 
 To build, do the following at the directory you cloned this repo:
 
@@ -127,15 +127,7 @@ cmake ..
 make
 ```
 
-###Run the Executable
-
-After compilation, in the build directly, type the following:
-
-```bash
-./vo
-```
-
-###Before you run
+## Before you run the executable
 <p>
 
 Note that the resulting codes won't provide you with relative scale
@@ -154,6 +146,14 @@ intrinsic calibration parameters in the code.
 </p>
 
 
-###Performance
+## Run the Executable
+
+After compilation, in the build directly, type the following:
+
+```bash
+./vo
+```
+
+## Performance
 ![Results on the KITTI VO Benchmark](http://avisingh599.github.io/images/visodo/2K.png)
 
