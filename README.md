@@ -1,16 +1,16 @@
 This is a modification of Avi Singh's codes on visual odometry to
-reflash what I learned earlier about the camera pose estimation. See
+refresh what I learned long time ago about the camera pose estimation. See
 the following for Avi's visual odometry posting,
 http://avisingh599.github.io/vision/monocular-vo/
 
-###Pipeline 
+###Pipeline
 
 <p>The visual odometry is a technique that estimates the pose of a
  rigid body over time by analyzing the images acquired from the camera
  installed or rigidly mounted on the body. This is roughly based on an
  assumption that the body is moving relative to other static objects
  around it [Howard, 2008], [Fraundorfer and Scaramuzza, 2012], [Nister
- et al., 2006], [Scaramuzza and Fraundorfer, 2011]. A generic pipeline
+ et al., 2006], [Scaramuzza and Fraundorfer, 2011]. A typical pipeline
  is as follows:</p>
 
 <ol>
@@ -18,37 +18,37 @@ http://avisingh599.github.io/vision/monocular-vo/
 <li><b>Feature Extraction</b>: Extract features from input images to
 track over frame. For this, <a
 href="https://www.edwardrosten.com/work/rosten_2006_machine.pdf">FAST</a>
-[Rosten and Drummond, 2006] is used.
+[Rosten and Drummond, 2006] is used. See `featureDetection()` in `vo_features.h` for the details.
 
 <li><b>Feature Tracking</b>: To estimate the relative motion of a
-camera in consecutive images, one needs to track the extracted
-features. In other words, assuming that those features are relatively
+camera in consecutive images, one needs correspondence between the features extracted from previous images and the one from the current frame. In other words, assuming that those features are relatively
 static, what we want to do is to estimate the motion of the camera or
 a body the camera rigidly mounted on with respect to those features
-appearing on consecutive image frames. For the feature tracking, the
+appearing on consecutive image frames. To compile a list of the correspondent features, one needs to track the extracted features over the frames.  For the feature tracking, the
 <a
 href="https://en.wikipedia.org/wiki/Kanade%E2%80%93Lucas%E2%80%93Tomasi_feature_tracker">KLT</a>
-(Kanade-Lucas-Tomasi) is used.
+(Kanade-Lucas-Tomasi) is used. See `featureTracking()` in `vo_features.h` for the details.
 
 <li><b>Camera Motion Estimation</b>:The motion of a camera in
-consecutive image frames or poses of the body is represented by a
-transformation matrix. The transformation matrix is in turn
-represented by a composite of a rotation and a translation matrix. The
-feature tracking will provide one with a list of the corresponding
+consecutive image frames (or the pose of the body installed the camera) is represented by a
+transformation matrix, which is a composite of a rotation and a translation matrix. The
+feature tracking will provide a list of the corresponding
 features in consecutive image frames. Given this set of the
-correspondending features, one can estimate such a transformation
+corresponding features, one can estimate such a transformation
 matrix using any of <i>n</i>-point algorithms [Quan and Lan,
 1999]. Here the Nister's five point algorithm is used to estimate the
 <a href="https://en.wikipedia.org/wiki/Essential_matrix">essential
-matrix</a> [Nister, 2004].
+matrix</a> [Nister, 2004]. For this, an OpenCV builtin function `findEssentialMat()` is used.
 
 <li><b>Computing R,t from the Essential Matrix</b>: Given an estimated
 essential matrix, to estimate the relative motion of a camera, one
 needs to compute <b>R, t</b> from the essential matrix, <b>E</b>
-[Hartley and Zisserman, 2000].
+[Hartley and Zisserman, 2000]. For this, a OpenCV builtin function `recoverPose()` function is used. Review the [Camera Computation and the Essential Matrix](http://www.maths.lth.se/matematiklth/personal/calle/datorseende13/notes/forelas6.pdf) for more details.
 
 <li><b>Pose Estimation</b>: Estimate the pose of the camera by rolling
 out what has been estimated.  
+
+<li> Repeat the step 1-5 until the end of the image feed.
 
 </ol>
 
@@ -156,4 +156,3 @@ intrinsic calibration parameters in the code.
 
 ###Performance
 ![Results on the KITTI VO Benchmark](http://avisingh599.github.io/images/visodo/2K.png)
-

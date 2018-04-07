@@ -7,7 +7,7 @@ using namespace std;
 #define MIN_NUM_FEAT 2000
 
 std::string usr_name;
-std::string kitti_sequence = "00";
+std::string kitti_sequence = "05";
 
 std::string getLoginName()
 {
