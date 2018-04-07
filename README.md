@@ -3,7 +3,7 @@ refresh what I learned long time ago about the camera pose
 estimation. See the following for Avi's visual odometry posting,
 http://avisingh599.github.io/vision/monocular-vo/
 
-###Pipeline
+## Pipeline
 
 <p>The visual odometry is a (computer vision) technique or algorithm
  that estimates the pose of a rigid body over time by analyzing the
@@ -20,7 +20,7 @@ http://avisingh599.github.io/vision/monocular-vo/
 track over frame. For this, <a
 href="https://www.edwardrosten.com/work/rosten_2006_machine.pdf">FAST</a>
 [Rosten and Drummond, 2006] is used. See `featureDetection()` in
-`vo_features.h` for the details. 
+`vo_features.h` for the details.
 
 <li><b>Feature Tracking</b>: To estimate the relative motion of a
 camera in consecutive images, one needs correspondence between the
@@ -123,7 +123,7 @@ Analysis and Machine Intelligence</i>, 21(8): 774-780, 1999.
 
 ## Requirements
 <p>
-OpenCV 3.0 or above.
+OpenCV ver 3.0 or above, CMake ver 2.8 or above
 </p>
 
 ## Build
