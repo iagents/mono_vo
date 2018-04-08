@@ -50,10 +50,7 @@ matrix</a> [Nister, 2004]. For this, an OpenCV builtin function `findEssentialMa
 essential matrix, to estimate the relative motion of a camera, one
 needs to compute <b>R, t</b> from the essential matrix, <b>E</b>
 [Hartley and Zisserman, 2000]. For this, a OpenCV builtin function
-`recoverPose()` function is used. Review the [Camera Computation and
-the Essential
-Matrix](http://www.maths.lth.se/matematiklth/personal/calle/datorseende13/notes/forelas6.pdf)
-for more details.
+`recoverPose()` function is used. Review the <a href="http://www.maths.lth.se/matematiklth/personal/calle/datorseende13/notes/forelas6.pdf">Camera Computation and the Essential Matrix</a> and [Scaramuzza and Fraundorfer, 2011] for more details about how to extract the rotation matrix, **R** and the translation matrix, **t**.
 
 <li><b>Pose Estimation</b>: Estimate the pose of the camera by rolling
 out what has been estimated.  
