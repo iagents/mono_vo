@@ -103,6 +103,9 @@ int main( int argc, char** argv ){
   cvtColor(img_1_c, img_1, COLOR_BGR2GRAY);
   cvtColor(img_2_c, img_2, COLOR_BGR2GRAY);
 
+  /////////////////////////////////////////////////////////////////////
+  // Estimate the relative motion between the very first two images.
+  //
   // feature detection, tracking
   // vectors to store the coordinates of the feature points
   vector<Point2f> points1, points2;
@@ -113,15 +116,20 @@ int main( int argc, char** argv ){
   // track the features detected from img_1 in img_2
   featureTracking(img_1, img_2, points1, points2, status);
 
-  //TODO: add a fucntion to load these values directly from KITTI's calib files
+  //TODO: add a fucntion to load these values directly from KITTI's
+  //calib files
 
-  // WARNING: different sequences ihe KITTI VO dataset have different intrinsic/extrinsic parameters
+  // WARNING: different sequences ihe KITTI VO dataset have different
+  // intrinsic/extrinsic parameters
+  
   // focal length 
   double focal = 718.8560;
+  
   // principal point
   cv::Point2d pp(607.1928, 185.2157);
 
-  // Recover the relative camera pose from the estimated essential matrix
+  // Recover the relative camera pose from the estimated essential
+  // matrix based on the five-point algorithm.
   Mat E, R, t, mask;
   E = findEssentialMat(points2, // Array of N 2d points, the coordinates of these points should be floating-point
 		       points1, // Array of N 2d points
@@ -162,11 +170,13 @@ int main( int argc, char** argv ){
 
   clock_t perframe_begin, perframe_end;
 
+  // With the estimated relative pose between the very first two
+  // images, repeat the frame-by-frame pose estimation for all the
+  // remaining images.
   for(int numFrame=2; numFrame < MAX_FRAME; numFrame++)	{
     perframe_begin = clock();
     sprintf(filename, file_fullname1.c_str(), numFrame);
 
-    //cout << numFrame << endl;
     Mat currImage_c = imread(filename);
     cvtColor(currImage_c, currImage, COLOR_BGR2GRAY);
     vector<uchar> status;
@@ -240,6 +250,7 @@ int main( int argc, char** argv ){
     imshow( "Trajectory", traj );
 
     waitKey(1);
+    //waitKey(0);
     perframe_end = clock();
 
     cout << "elapsed time to process, " << filename << ", " << (double(perframe_end-perframe_begin)/CLOCKS_PER_SEC) << " sec" << endl;

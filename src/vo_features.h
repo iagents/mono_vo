@@ -16,9 +16,15 @@
 using namespace cv;
 using namespace std;
 
-// This function is intended to remove points from the correspondence
-//based on LK results.
-void featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Point2f>& points2, vector<uchar>& status)	{
+/**
+ * This function is intended to remove points from the correspondence
+ * based on LK results.
+*/
+void featureTracking(Mat img_1,
+		     Mat img_2,
+		     vector<Point2f>& points1,
+		     vector<Point2f>& points2,
+		     vector<uchar>& status)	{
 
   vector<float> err;
   Size winSize=Size(21,21);
@@ -45,7 +51,10 @@ void featureTracking(Mat img_1, Mat img_2, vector<Point2f>& points1, vector<Poin
   }
 }
 
-void featureDetection(Mat img_1, vector<Point2f>& points1)	{
+/**
+ * Detect features from the given image
+ */
+void featureDetection(Mat img_1, vector<Point2f>& points1) {
   vector<KeyPoint> keypoints_1;
   int fast_threshold = 20;
   bool nonmaxSuppression = true;
